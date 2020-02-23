@@ -35,7 +35,6 @@ class PopupDialogFragment(
             val editText = edit_link.text.toString()
             if(!editText.startsWith("https://") && !editText.startsWith("http://")) {
                 showAlarm()
-                Log.e("editText", editText)
             } else {
                 onImageSelectedListener?.invoke(it, edit_link.text.toString())
                 this.dismiss()

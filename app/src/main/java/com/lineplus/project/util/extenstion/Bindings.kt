@@ -49,6 +49,7 @@ fun AppCompatImageView.load(imageUrl : String?) {
             context.runOnUiThread {
                 Glide.with(this)
                     .load(imageUrl)
+                    .error(R.drawable.page_not_found_bg)
                     .thumbnail(0.5f)
                     .into(view)
             }

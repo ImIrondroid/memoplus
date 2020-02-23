@@ -87,7 +87,16 @@ class AddMemoActivity : BaseActivity() {
 
         when(item.itemId) {
             R.id.menu_register -> {
-                viewModel.insert()
+                val dialog = AlertDialog.Builder(this@AddMemoActivity).apply {
+                    setTitle("메모를 추가하시겠습니까?")
+                    setPositiveButton("취소") { dialog, which ->
+                        dialog.dismiss()
+                    }
+                    setNegativeButton("확인") { dialog, which ->
+                        viewModel.insert()
+                        dialog.dismiss()
+                    }
+                }.show()
             }
         }
         return true

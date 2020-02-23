@@ -51,7 +51,6 @@ class MainActivity : BaseActivity() {
         binding.memoAdapter = memoAdapter
         memoAdapter.setOnItemSelectedListener { view, item, position ->
             startActivity(Intent(this, DetailedMemoActivity::class.java).apply {
-                Log.e("item id : " , item.id.toString())
                 putExtra("id",item.id )
             })
         }

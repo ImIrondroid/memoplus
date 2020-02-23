@@ -3,6 +3,7 @@ package com.lineplus.project.data.local.dao
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.lineplus.project.data.local.entity.MemoEntity
+import io.reactivex.Completable
 import io.reactivex.Single
 
 @Dao
@@ -15,11 +16,11 @@ interface MemoDao {
     fun getMemo(id : Long) : Single<MemoEntity>
 
     @Insert
-    suspend fun insert(memo : MemoEntity)
+    fun insert(memo : MemoEntity) : Completable
 
     @Update
-    suspend fun update(memo : MemoEntity)
+    fun update(memo : MemoEntity) : Completable
 
     @Delete
-    suspend fun delete(memo : MemoEntity)
+    fun delete(memo : MemoEntity) : Completable
 }

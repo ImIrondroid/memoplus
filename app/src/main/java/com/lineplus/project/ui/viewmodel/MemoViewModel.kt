@@ -1,15 +1,15 @@
 package com.lineplus.project.ui.viewmodel
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
 import com.lineplus.project.base.BaseNavigator
 import com.lineplus.project.base.BaseViewModel
 import com.lineplus.project.data.local.db.MemoDatabase
 import com.lineplus.project.data.local.entity.MemoEntity
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -72,7 +72,8 @@ class MemoViewModel<N : BaseNavigator>(
         val date = Date(now)
         val simpleDateFormat = SimpleDateFormat("yyyy/MM/dd HH:mm")
         val formatdate = simpleDateFormat.format(date)
-        viewModelScope.launch(Dispatchers.IO) {
+
+        compositeDisposable.add(
             dataBase.memoDao().insert(MemoEntity(
                 0L,
                 title.value!!,
@@ -80,11 +81,14 @@ class MemoViewModel<N : BaseNavigator>(
                 formatdate,
                 formatdate,
                 pictures.value?.toList()!!))
-        }
-        backPressed()
-    }
-
-    fun backPressed() {
-        getNavigator().backActivity()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe({
+                    Log.e("insert : ", "success")
+                    getNavigator().backActivity()
+                },{
+                    Log.e("insert : ", it.message)
+                })
+        )
     }
 }

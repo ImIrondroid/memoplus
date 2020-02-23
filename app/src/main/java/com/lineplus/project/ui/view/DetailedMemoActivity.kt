@@ -70,7 +70,7 @@ class DetailedMemoActivity : BaseActivity() {
             }
             R.id.menu_delete -> {
                 val dialog = AlertDialog.Builder(this@DetailedMemoActivity).apply {
-                    setTitle("정말로 삭제하시겠습니까?.")
+                    setTitle("정말로 삭제하시겠습니까?")
                     setPositiveButton("취소") { dialog, which ->
                         dialog.dismiss()
                     }

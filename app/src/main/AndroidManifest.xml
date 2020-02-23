@@ -16,8 +16,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".ui.view.EditMemoActivity" />
-
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.lineplus.project"
@@ -28,8 +26,6 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-        <activity android:name=".ui.view.DetailedMemoActivity" />
-        <activity android:name=".ui.view.AddMemoActivity" />
         <activity android:name=".ui.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -37,6 +33,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ui.view.EditMemoActivity" />
+        <activity android:name=".ui.view.DetailedMemoActivity" />
+        <activity android:name=".ui.view.AddMemoActivity" />
     </application>
 
 </manifest>

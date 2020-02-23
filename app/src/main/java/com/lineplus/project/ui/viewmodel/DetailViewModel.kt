@@ -4,7 +4,6 @@ import android.app.Application
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
 import com.lineplus.project.base.BaseNavigator
 import com.lineplus.project.base.BaseViewModel
 import com.lineplus.project.data.local.db.MemoDatabase
@@ -12,7 +11,6 @@ import com.lineplus.project.data.local.entity.MemoEntity
 import com.lineplus.project.util.extenstion.createMutableLiveData
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import kotlinx.coroutines.*
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -51,9 +49,9 @@ class DetailViewModel<N : BaseNavigator>(
                 }
                 .subscribe({
                     _pictures.value = it.imagePath.toMutableList()
-                    Log.e("subscribe : ", "success")
+                    Log.e("getMemo : ", "success")
                 }, {
-                    Log.e("subscribe error : ", it.message)
+                    Log.e("getMemo : ", it.message)
                 })
         )
     }
@@ -91,10 +89,17 @@ class DetailViewModel<N : BaseNavigator>(
             formatdate,
             _pictures.value?.toList()!!
         )
-        viewModelScope.launch(Dispatchers.IO) {
+
+        compositeDisposable.add(
             dataBase.memoDao().update(updatedMemo)
-        }
-        getNavigator().backActivity()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe({
+                    Log.e("update : ", "success")
+                }, {
+                    Log.e("update : ", it.message)
+                })
+        )
     }
 
     fun delete() {
@@ -110,9 +115,17 @@ class DetailViewModel<N : BaseNavigator>(
             _memoEntity.value!!.editedAt,
             _pictures.value?.toList()!!
         )
-        viewModelScope.launch(Dispatchers.IO) {
+
+        compositeDisposable.add(
             dataBase.memoDao().delete(updatedMemo)
-        }
-        getNavigator().backActivity()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe({
+                    Log.e("delete : ", "success")
+                    getNavigator().backActivity()
+                }, {
+                    Log.e("delete : ", it.message)
+                })
+        )
     }
 }

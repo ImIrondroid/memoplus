@@ -1,6 +1,7 @@
 package com.lineplus.project.ui.view
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.ClipData
 import android.content.Intent
 import android.net.Uri
@@ -69,6 +70,18 @@ class EditMemoActivity : BaseActivity() {
         Permission(this).tedPermission()
     }
 
+    override fun onBackPressed() {
+        val dialog = AlertDialog.Builder(this@EditMemoActivity).apply {
+            setTitle("메모편집을 취소하시겠습니까?")
+            setPositiveButton("취소") { dialog, which ->
+                dialog.dismiss()
+            }
+            setNegativeButton("확인") { dialog, which ->
+                super.onBackPressed()
+                dialog.dismiss()
+            }
+        }.show()
+    }
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val inflater : MenuInflater = menuInflater
         inflater.inflate(R.menu.memo_apply, menu)
@@ -79,6 +92,14 @@ class EditMemoActivity : BaseActivity() {
         when(item.itemId) {
             R.id.menu_apply -> {
                 detailViewModel.update()
+                val dialog = AlertDialog.Builder(this@EditMemoActivity).apply {
+                     setTitle("편집이 완료되었습니다")
+                     setCancelable(false)
+                     setPositiveButton("확인") { dialog, which ->
+                        dialog.dismiss()
+                        finish()
+                     }
+                }.show()
             }
         }
         return true
