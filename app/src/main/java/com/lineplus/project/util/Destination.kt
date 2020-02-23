@@ -1,9 +1,9 @@
 package com.lineplus.project.util
 
-import com.lineplus.project.ui.MainActivity
-import com.lineplus.project.ui.view.AddMemoActivity
-import com.lineplus.project.ui.view.DetailedMemoActivity
-import com.lineplus.project.ui.view.EditMemoActivity
+import com.lineplus.project.ui.view.activity.MainActivity
+import com.lineplus.project.ui.view.activity.AddMemoActivity
+import com.lineplus.project.ui.view.activity.DetailedMemoActivity
+import com.lineplus.project.ui.view.activity.EditMemoActivity
 
 enum class Destination(
     name : String

@@ -1,22 +1,18 @@
-package com.lineplus.project.ui.view
+package com.lineplus.project.ui.view.activity
 
 import android.app.AlertDialog
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.DisplayMetrics
-import android.util.Log
 import android.view.*
 import androidx.databinding.DataBindingUtil
 import com.lineplus.project.R
 import com.lineplus.project.base.BaseActivity
 import com.lineplus.project.base.BaseNavigator
 import com.lineplus.project.data.local.db.MemoDatabase
-import com.lineplus.project.data.local.entity.MemoEntity
 import com.lineplus.project.databinding.ActivityDetailedMemoBinding
 import com.lineplus.project.ui.adapter.PictureAdapter
 import com.lineplus.project.ui.viewmodel.DetailViewModel
-import kotlinx.android.synthetic.main.actionbar.*
 import org.koin.android.ext.android.inject
 
 class DetailedMemoActivity : BaseActivity() {

@@ -26,16 +26,19 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-        <activity android:name=".ui.MainActivity">
+        <activity android:name=".ui.view.activity.SplashActivity"
+            android:theme="@style/CustomTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.view.EditMemoActivity" />
-        <activity android:name=".ui.view.DetailedMemoActivity" />
-        <activity android:name=".ui.view.AddMemoActivity" />
+
+        <activity android:name=".ui.view.activity.MainActivity"/>
+        <activity android:name=".ui.view.activity.EditMemoActivity" />
+        <activity android:name=".ui.view.activity.DetailedMemoActivity" />
+        <activity android:name=".ui.view.activity.AddMemoActivity" />
     </application>
 
 </manifest>

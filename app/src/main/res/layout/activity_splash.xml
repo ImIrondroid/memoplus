@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:id="@+id/_constraint"
+        android:gravity="center">
+
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/_top_guide"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintGuide_percent="0.3"
+            android:orientation="horizontal"
+            />
+
+        <TextView
+            android:id="@+id/_title_start1"
+            style="@style/NotoBoldText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/_top_guide"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:alpha="0"
+            android:textSize="50sp"
+            android:textColor="@color/black"
+            android:text="메"
+            />
+
+        <TextView
+            android:id="@+id/_title_start2"
+            style="@style/NotoBoldText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/_top_guide"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:alpha="0"
+            android:textSize="50sp"
+            android:textColor="@color/black"
+            android:text="모"
+            />
+        <TextView
+            android:id="@+id/_title_start3"
+            style="@style/NotoBoldText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/_top_guide"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:alpha="0"
+            android:textSize="50sp"
+            android:textColor="@color/black"
+            android:text="플"
+            />
+
+        <TextView
+            android:id="@+id/_title_start4"
+            style="@style/NotoBoldText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/_top_guide"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:alpha="0"
+            android:textSize="50sp"
+            android:textColor="@color/black"
+            android:text="러"
+            />
+
+        <TextView
+            android:id="@+id/_title_start5"
+            style="@style/NotoBoldText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/_top_guide"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:alpha="0"
+            android:textSize="50sp"
+            android:textColor="@color/black"
+            android:text="스"
+            />
+
+        <ImageView
+            android:id="@+id/_logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@id/_title_start5"
+            app:layout_constraintBottom_toTopOf="@id/_title_start5"
+            android:src="@drawable/pencil_vector"
+            />
+
+        <TextView
+            android:id="@+id/_title_end"
+            style="@style/NotoBoldText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:textSize="12sp"
+            android:textColor="@color/black"
+            android:alpha="0"
+            android:layout_marginBottom="30dp"
+            android:text="@string/madeby"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

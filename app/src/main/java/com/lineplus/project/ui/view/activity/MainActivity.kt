@@ -1,29 +1,19 @@
-package com.lineplus.project.ui
+package com.lineplus.project.ui.view.activity
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
-import android.view.View
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
-import com.lineplus.project.BR
 import com.lineplus.project.R
 import com.lineplus.project.base.BaseActivity
 import com.lineplus.project.base.BaseNavigator
 import com.lineplus.project.data.local.db.MemoDatabase
 import com.lineplus.project.databinding.ActivityMainBinding
 import com.lineplus.project.ui.adapter.MemoAdapter
-import com.lineplus.project.ui.view.AddMemoActivity
-import com.lineplus.project.ui.view.DetailedMemoActivity
 import com.lineplus.project.ui.viewmodel.MemoViewModel
-import kotlinx.android.synthetic.main.actionbar.*
-import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.android.ext.android.inject
-import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.text.SimpleDateFormat
 import java.util.*
 

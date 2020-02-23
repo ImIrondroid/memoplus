@@ -15,8 +15,8 @@ class Permission(
                 override fun onPermissionGranted() {}
                 override fun onPermissionDenied(deniedPermissions: java.util.ArrayList<String>?) {}
             })
-            .setRationaleMessage(activity.resources.getString(R.string.permission_2))
-            .setDeniedMessage(activity.resources.getString(R.string.permission_1))
+            .setRationaleMessage(activity.resources.getString(R.string.permission_string2))
+            .setDeniedMessage(activity.resources.getString(R.string.permission_string1))
             .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA)
             .check()
     }

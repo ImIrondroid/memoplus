@@ -4,7 +4,6 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
-//kapt 사용하기 위함
 apply plugin: 'kotlin-kapt'
 
 android {
@@ -13,7 +12,7 @@ android {
     defaultConfig {
         applicationId "com.lineplus.project"
         minSdkVersion 21
-        targetSdkVersion 28
+        targetSdkVersion 29
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"

@@ -14,13 +14,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
+        android:background="@color/white"
         android:scrollbars="vertical"
         android:scrollbarStyle="insideInset">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:context=".ui.view.DetailedMemoActivity">
+            tools:context=".ui.view.activity.DetailedMemoActivity">
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/_start_guide"
