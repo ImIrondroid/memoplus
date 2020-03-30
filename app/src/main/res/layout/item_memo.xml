@@ -6,7 +6,7 @@
     <data>
         <variable
             name="item"
-            type="com.lineplus.project.data.local.entity.MemoEntity" />
+            type="com.memo.project.data.local.entity.MemoEntity" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

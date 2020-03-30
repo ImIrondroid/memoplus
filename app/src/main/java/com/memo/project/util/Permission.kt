@@ -1,0 +1,23 @@
+package com.memo.project.util
+
+import android.Manifest
+import android.app.Activity
+import com.gun0912.tedpermission.PermissionListener
+import com.gun0912.tedpermission.TedPermission
+import com.memo.project.R
+
+class Permission(
+    val activity : Activity
+) {
+    fun tedPermission() {
+        TedPermission.with(activity.applicationContext)
+            .setPermissionListener(object : PermissionListener {
+                override fun onPermissionGranted() {}
+                override fun onPermissionDenied(deniedPermissions: java.util.ArrayList<String>?) {}
+            })
+            .setRationaleMessage(activity.resources.getString(R.string.permission_string2))
+            .setDeniedMessage(activity.resources.getString(R.string.permission_string1))
+            .setPermissions(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA)
+            .check()
+    }
+}

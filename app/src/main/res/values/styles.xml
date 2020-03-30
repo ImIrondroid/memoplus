@@ -10,9 +10,9 @@
     </style>
 
     <style name="CustomTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/white</item>
-        <item name="colorPrimaryDark">@color/white</item>
-        <item name="colorAccent">@color/white</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimary</item>
+        <item name="colorAccent">@color/colorPrimary</item>
     </style>
 
     <style name="PopupTheme" parent="Theme.AppCompat.Light.Dialog.Alert">

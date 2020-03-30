@@ -7,7 +7,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.lineplus.project.ui.viewmodel.DetailViewModel" />
+            type="com.memo.project.ui.viewmodel.DetailViewModel" />
     </data>
 
     <androidx.core.widget.NestedScrollView

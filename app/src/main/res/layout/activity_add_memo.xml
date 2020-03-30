@@ -6,8 +6,11 @@
 
     <data>
         <variable
+            name="adapter"
+            type="com.memo.project.ui.adapter.PictureAdapter" />
+        <variable
             name="viewModel"
-            type="com.lineplus.project.ui.viewmodel.MemoViewModel" />
+            type="com.memo.project.ui.viewmodel.MemoViewModel" />
     </data>
 
     <androidx.core.widget.NestedScrollView

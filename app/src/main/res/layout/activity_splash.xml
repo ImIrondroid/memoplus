@@ -6,7 +6,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"
+        android:background="@color/colorPrimary"
         android:id="@+id/_constraint"
         android:gravity="center">
 
@@ -29,7 +29,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:alpha="0"
             android:textSize="50sp"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:text="메"
             />
 
@@ -43,7 +43,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:alpha="0"
             android:textSize="50sp"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:text="모"
             />
         <TextView
@@ -56,7 +56,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:alpha="0"
             android:textSize="50sp"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:text="플"
             />
 
@@ -70,7 +70,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:alpha="0"
             android:textSize="50sp"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:text="러"
             />
 
@@ -84,7 +84,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:alpha="0"
             android:textSize="50sp"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:text="스"
             />
 
@@ -106,7 +106,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:textSize="12sp"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:alpha="0"
             android:layout_marginBottom="30dp"
             android:text="@string/madeby"
