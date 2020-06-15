@@ -1,12 +1,14 @@
 package com.memo.project.base
 
+import android.app.Activity
+import android.os.Bundle
 import com.memo.project.util.Destination
+import kotlin.reflect.KClass
 
 
 interface BaseNavigator {
 
+    fun <T: Activity> nextActivity(kClass: KClass<T>, bundle: Bundle? = null, clearTask: Boolean = false)
+
     fun backActivity()
-    fun nextActivity(destination: Destination)
-    fun nextActivityFinish(destination: Destination)
-    fun nextActivityClearTop(destination: Destination)
 }

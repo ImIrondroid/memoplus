@@ -43,7 +43,6 @@ class PictureAdapter(
     ) : BaseViewHolder<String>(binding) {
         override fun onBind(item: String?) {
             super.onBind(item)
-
             if(item==null) return
             if(status) {
                 itemView.close_group.visibility = View.VISIBLE

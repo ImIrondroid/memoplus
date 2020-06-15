@@ -3,6 +3,7 @@ package com.memo.project.util.extenstion
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.media.ExifInterface
+import android.util.Log
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -67,7 +68,6 @@ fun AppCompatImageView.load(imageUrl : String?) {
                 val exifDegree: Int = exifOrientationToDegrees(exifOrientation)
                 val bitmap: Bitmap = BitmapFactory.decodeFile(imageUrl)
                 val rotateBitmap = rotate(bitmap, exifDegree.toFloat())
-
                 context.runOnUiThread {
                     Glide.with(this)
                         .load(rotateBitmap!!)

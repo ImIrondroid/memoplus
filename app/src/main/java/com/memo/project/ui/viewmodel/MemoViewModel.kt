@@ -1,6 +1,5 @@
 package com.memo.project.ui.viewmodel
 
-import android.app.Application
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -13,10 +12,9 @@ import io.reactivex.schedulers.Schedulers
 import java.text.SimpleDateFormat
 import java.util.*
 
-class MemoViewModel<N : BaseNavigator>(
-    private val dataBase : MemoDatabase,
-    application: Application
-) : BaseViewModel<N>(application) {
+class MemoViewModel(
+    private val dataBase : MemoDatabase
+) : BaseViewModel<BaseNavigator>() {
 
     private var _pictures : MutableLiveData<MutableList<String>> = MutableLiveData(mutableListOf())
     val pictures : LiveData<MutableList<String>> = _pictures
@@ -73,22 +71,21 @@ class MemoViewModel<N : BaseNavigator>(
         val simpleDateFormat = SimpleDateFormat("yyyy/MM/dd HH:mm")
         val formatdate = simpleDateFormat.format(date)
 
-        compositeDisposable.add(
-            dataBase.memoDao().insert(MemoEntity(
-                0L,
-                title.value!!,
-                description.value!!,
-                formatdate,
-                formatdate,
-                pictures.value?.toList()!!))
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    Log.e("insert : ", "success")
-                    getNavigator().backActivity()
-                },{
-                    Log.e("insert : ", it.message)
-                })
-        )
+        dataBase.memoDao().insert(MemoEntity(
+            0L,
+            title.value!!,
+            description.value!!,
+            formatdate,
+            formatdate,
+            pictures.value?.toList()!!))
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                Log.e("insert : ", "success")
+                getNavigator().backActivity()
+            },{
+                Log.e("insert : ", it.message)
+            })
+            .let { addDisposable(it) }
     }
 }
