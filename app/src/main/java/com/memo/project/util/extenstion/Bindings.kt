@@ -3,12 +3,13 @@ package com.memo.project.util.extenstion
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.media.ExifInterface
-import androidx.appcompat.widget.AppCompatImageView
+import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.memo.project.R
 import com.memo.project.base.BaseRecyclerViewAdapter
+import com.memo.project.data.model.MemoImage
 import com.memo.project.util.exifOrientationToDegrees
 import com.memo.project.util.rotate
 import org.jetbrains.anko.doAsync
@@ -28,10 +29,10 @@ fun RecyclerView.binding(adapter: RecyclerView.Adapter<*>? = null) {
     this.adapter = adapter
 }
 
-
 @BindingAdapter("loadImage")
-fun AppCompatImageView.load(imageUrl : String?) {
+fun ImageView.load(image : MemoImage?) {
 
+    val imageUrl = image?.imagePath
     val view = this
     val context = this.context
 
@@ -67,7 +68,6 @@ fun AppCompatImageView.load(imageUrl : String?) {
                 val exifDegree: Int = exifOrientationToDegrees(exifOrientation)
                 val bitmap: Bitmap = BitmapFactory.decodeFile(imageUrl)
                 val rotateBitmap = rotate(bitmap, exifDegree.toFloat())
-
                 context.runOnUiThread {
                     Glide.with(this)
                         .load(rotateBitmap!!)

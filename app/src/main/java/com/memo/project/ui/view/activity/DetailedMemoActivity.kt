@@ -5,50 +5,48 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.DisplayMetrics
 import android.view.*
-import androidx.databinding.DataBindingUtil
+import com.memo.project.BR
 import com.memo.project.R
 import com.memo.project.base.BaseActivity
-import com.memo.project.base.BaseNavigator
-import com.memo.project.data.local.db.MemoDatabase
 import com.memo.project.databinding.ActivityDetailedMemoBinding
 import com.memo.project.ui.adapter.PictureAdapter
 import com.memo.project.ui.viewmodel.DetailViewModel
 import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class DetailedMemoActivity : BaseActivity() {
+class DetailedMemoActivity : BaseActivity<ActivityDetailedMemoBinding, DetailViewModel>() {
 
-    private val database : MemoDatabase by inject()
-
-    lateinit var detailViewModel: DetailViewModel<BaseNavigator>
-    lateinit var binding : ActivityDetailedMemoBinding
-    lateinit var pictureAdapter : PictureAdapter
+    private val mViewModel : DetailViewModel by viewModel()
+    private val pictureAdapter = PictureAdapter(false)
 
     var sendId : Long = 0
     val displayMetrics = DisplayMetrics()
 
+    override val screenTitle: String
+        get() = "메모 상세보기"
+
+    override val viewModel: DetailViewModel
+        get() = mViewModel
+
+    override val viewModelId: Int
+        get() = BR.viewModel
+
+    override val layoutResId: Int
+        get() = R.layout.activity_detailed_memo
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_detailed_memo)
-        binding.lifecycleOwner = this
-
-        setTitle("메모 상세보기")
-
-        detailViewModel = DetailViewModel(database, this.application)
-        binding.viewModel = detailViewModel.apply {
-            setNavigator(this@DetailedMemoActivity)
-        }
-
+        viewModel.setNavigator(this)
         windowManager.defaultDisplay.getMetrics(displayMetrics)
-        pictureAdapter = PictureAdapter(false)
-        binding.rcvImages.adapter = pictureAdapter
+        viewDataBinding.rcvImages.adapter = pictureAdapter
 
-        sendId = getIntent().getLongExtra("id", 0)
-        detailViewModel.getMemo(sendId)
+        sendId = intent.getLongExtra("id", 0)
+        viewModel.getMemo(sendId)
     }
 
     override fun onStart() {
         super.onStart()
-        detailViewModel.getMemo(sendId)
+        viewModel.getMemo(sendId)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -71,7 +69,7 @@ class DetailedMemoActivity : BaseActivity() {
                         dialog.dismiss()
                     }
                     setNegativeButton("확인") { dialog, which ->
-                        detailViewModel.delete()
+                        viewModel.delete()
                         dialog.dismiss()
                     }
                 }.show()
@@ -79,6 +77,5 @@ class DetailedMemoActivity : BaseActivity() {
         }
         return true
     }
-
 }
 

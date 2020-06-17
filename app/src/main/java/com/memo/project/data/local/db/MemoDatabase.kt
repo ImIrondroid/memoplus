@@ -4,9 +4,13 @@ import android.content.Context
 import androidx.room.*
 import com.memo.project.data.local.RoomConverter
 import com.memo.project.data.local.dao.MemoDao
-import com.memo.project.data.local.entity.MemoEntity
+import com.memo.project.data.local.entity.Memo
 
-@Database(entities = arrayOf(MemoEntity::class), version = 1, exportSchema = false)
+@Database(
+    entities = [Memo::class],
+    version = 1,
+    exportSchema = false
+)
 @TypeConverters(RoomConverter::class)
 abstract class MemoDatabase : RoomDatabase() {
 
@@ -21,7 +25,7 @@ abstract class MemoDatabase : RoomDatabase() {
                     INSTANCE = Room.databaseBuilder(
                         context.applicationContext,
                         MemoDatabase::class.java,
-                        "your_db.db"
+                        "memo.db"
                     )
                         .fallbackToDestructiveMigration()
                         .build()

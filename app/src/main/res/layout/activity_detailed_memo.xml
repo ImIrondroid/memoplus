@@ -61,11 +61,12 @@
                     android:id="@+id/rcv_images"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    android:orientation="horizontal"
                     app:layout_constraintTop_toTopOf="parent"
                     submitList="@{viewModel.pictures}"
                     tools:listitem="@layout/item_picture"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    android:orientation="horizontal"
+                    tools:itemCount="1"
                     />
 
                 <TextView

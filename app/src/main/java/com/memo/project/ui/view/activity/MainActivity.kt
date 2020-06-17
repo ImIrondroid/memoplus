@@ -5,38 +5,36 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
-import androidx.databinding.DataBindingUtil
+import com.memo.project.BR
 import com.memo.project.R
 import com.memo.project.base.BaseActivity
-import com.memo.project.base.BaseNavigator
-import com.memo.project.data.local.db.MemoDatabase
 import com.memo.project.databinding.ActivityMainBinding
 import com.memo.project.ui.adapter.MemoAdapter
 import com.memo.project.ui.viewmodel.MemoViewModel
 import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class MainActivity : BaseActivity() {
+class MainActivity : BaseActivity<ActivityMainBinding, MemoViewModel>() {
 
-    private val database : MemoDatabase by inject()
+    private val mViewModel : MemoViewModel by viewModel()
+    private val memoAdapter: MemoAdapter by inject()
 
-    lateinit var memoViewModel : MemoViewModel<BaseNavigator>
-    lateinit var memoAdapter: MemoAdapter
-    lateinit var binding : ActivityMainBinding
+    override val screenTitle: String
+        get() = "메모플러스"
+
+    override val viewModel: MemoViewModel
+        get() = mViewModel
+
+    override val viewModelId: Int
+        get() = BR.viewModel
+
+    override val layoutResId: Int
+        get() = R.layout.activity_main
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        binding.lifecycleOwner = this
-
-        setTitle("메모플러스")
-
-        memoViewModel = MemoViewModel(database, this.application)
-        memoAdapter = MemoAdapter()
-        binding.viewModel = memoViewModel.apply {
-            setNavigator(this@MainActivity)
-        }
-
-        binding.memoAdapter = memoAdapter
+        viewModel.setNavigator(this)
+        viewDataBinding.memoAdapter = memoAdapter
         memoAdapter.setOnItemSelectedListener { view, item, position ->
             startActivity(Intent(this, DetailedMemoActivity::class.java).apply {
                 putExtra("id",item.id )
@@ -46,7 +44,7 @@ class MainActivity : BaseActivity() {
 
     override fun onStart() {
         super.onStart()
-        memoViewModel.initialize()
+        viewModel.initialize()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

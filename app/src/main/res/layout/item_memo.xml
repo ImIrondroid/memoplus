@@ -6,7 +6,7 @@
     <data>
         <variable
             name="item"
-            type="com.memo.project.data.local.entity.MemoEntity" />
+            type="com.memo.project.data.local.entity.Memo" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -152,11 +152,10 @@
 
                         <androidx.appcompat.widget.AppCompatImageView
                             android:id="@+id/thumbnail"
+                            loadImage="@{item.imageList.size()>0 ? item.imageList.get(0) : null}"
                             android:layout_width="140dp"
                             android:layout_height="140dp"
-                            android:scaleType="centerCrop"
-                            loadImage="@{item.imagePath.size() > 0 ? item.imagePath.get(0) : null}"
-                            />
+                            android:scaleType="centerCrop" />
 
                     </androidx.cardview.widget.CardView>
 

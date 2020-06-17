@@ -6,16 +6,16 @@ import androidx.recyclerview.widget.DiffUtil
 import com.memo.project.databinding.ItemMemoBinding
 import com.memo.project.base.BaseRecyclerViewAdapter
 import com.memo.project.base.BaseViewHolder
-import com.memo.project.data.local.entity.MemoEntity
+import com.memo.project.data.local.entity.Memo
 import com.memo.project.util.OnItemSelectedListener
 
-class MemoAdapter : BaseRecyclerViewAdapter<MemoEntity>(
-    object : DiffUtil.ItemCallback<MemoEntity>() {
-        override fun areItemsTheSame(oldItem: MemoEntity, newItem: MemoEntity): Boolean {
+class MemoAdapter : BaseRecyclerViewAdapter<Memo>(
+    object : DiffUtil.ItemCallback<Memo>() {
+        override fun areItemsTheSame(oldItem: Memo, newItem: Memo): Boolean {
             return oldItem.id == newItem.id
         }
 
-        override fun areContentsTheSame(oldItem: MemoEntity, newItem: MemoEntity): Boolean {
+        override fun areContentsTheSame(oldItem: Memo, newItem: Memo): Boolean {
             return oldItem.id == newItem.id &&
                     oldItem.title == newItem.title &&
                     oldItem.descrption == newItem.descrption
@@ -23,13 +23,13 @@ class MemoAdapter : BaseRecyclerViewAdapter<MemoEntity>(
     }
 ) {
 
-    private var onItemSelectedListener : OnItemSelectedListener<MemoEntity>? = null
+    private var onItemSelectedListener : OnItemSelectedListener<Memo>? = null
 
-    fun setOnItemSelectedListener(onItemSelectedListener: OnItemSelectedListener<MemoEntity>) {
+    fun setOnItemSelectedListener(onItemSelectedListener: OnItemSelectedListener<Memo>) {
         this.onItemSelectedListener = onItemSelectedListener
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<MemoEntity> {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<Memo> {
         return MemoViewHolder(
             ItemMemoBinding.inflate(
                 LayoutInflater.from(parent.context),
@@ -41,10 +41,9 @@ class MemoAdapter : BaseRecyclerViewAdapter<MemoEntity>(
 
     inner class MemoViewHolder(
         private val binding : ItemMemoBinding
-    ) : BaseViewHolder<MemoEntity>(binding) {
-        override fun onBind(item: MemoEntity?) {
+    ) : BaseViewHolder<Memo>(binding) {
+        override fun onBind(item: Memo?) {
             super.onBind(item)
-
             if(item==null) return
             itemView.setOnClickListener {
                 onItemSelectedListener?.invoke(it, item, adapterPosition)

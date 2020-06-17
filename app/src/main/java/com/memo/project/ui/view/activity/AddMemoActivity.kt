@@ -13,12 +13,10 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import androidx.core.content.FileProvider
-import androidx.databinding.DataBindingUtil
+import com.memo.project.BR
 import com.memo.project.util.Permission
 import com.memo.project.R
 import com.memo.project.base.BaseActivity
-import com.memo.project.base.BaseNavigator
-import com.memo.project.data.local.db.MemoDatabase
 import com.memo.project.databinding.ActivityAddMemoBinding
 import com.memo.project.ui.adapter.PictureAdapter
 import com.memo.project.ui.view.Fragment.PopupDialogFragment
@@ -26,37 +24,36 @@ import com.memo.project.ui.viewmodel.MemoViewModel
 import com.memo.project.util.getRealPathFromUri
 import kotlinx.android.synthetic.main.activity_add_memo.*
 import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 
 
-class AddMemoActivity : BaseActivity() {
-
-    private val db : MemoDatabase by inject()
+class AddMemoActivity : BaseActivity<ActivityAddMemoBinding, MemoViewModel>() {
 
     private var imageFilePath: String? = null
     private var photoUri: Uri? = null
+    private val pictureAdapter : PictureAdapter by inject()
+    private val mViewModel : MemoViewModel by viewModel()
 
-    lateinit var binding : ActivityAddMemoBinding
-    lateinit var viewModel: MemoViewModel<BaseNavigator>
-    lateinit var pictureAdapter : PictureAdapter
+    override val screenTitle: String
+        get() = "메모 작성하기"
+
+    override val viewModel: MemoViewModel
+        get() = mViewModel
+
+    override val viewModelId: Int
+        get() = BR.viewModel
+
+    override val layoutResId: Int
+        get() = R.layout.activity_add_memo
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_add_memo)
-        binding.lifecycleOwner = this
-
-        setTitle("메모 작성하기")
-
-        viewModel =  MemoViewModel(db, this.application)
-        pictureAdapter = PictureAdapter(true)
-
-        binding.viewModel = viewModel.apply {
-            setNavigator(this@AddMemoActivity)
-        }
-        binding.rcvPic.adapter = pictureAdapter.apply {
+        viewModel.setNavigator(this)
+        viewDataBinding.rcvPic.adapter = pictureAdapter.apply {
             setOnItemSelectedListener { view, item, position ->
                 viewModel.remove(position)
             }

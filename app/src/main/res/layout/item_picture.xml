@@ -4,7 +4,7 @@
     <data>
         <variable
             name="item"
-            type="String" />
+            type="com.memo.project.data.model.MemoImage" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

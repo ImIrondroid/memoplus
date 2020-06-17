@@ -7,23 +7,23 @@ import androidx.lifecycle.MutableLiveData
 import com.memo.project.base.BaseNavigator
 import com.memo.project.base.BaseViewModel
 import com.memo.project.data.local.db.MemoDatabase
-import com.memo.project.data.local.entity.MemoEntity
+import com.memo.project.data.local.entity.Memo
+import com.memo.project.data.model.MemoImage
 import com.memo.project.util.extenstion.createMutableLiveData
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import java.text.SimpleDateFormat
 import java.util.*
 
-class DetailViewModel<N : BaseNavigator>(
-    private val dataBase: MemoDatabase,
-    application: Application
-) : BaseViewModel<N>(application) {
+class DetailViewModel(
+    private val dataBase: MemoDatabase
+) : BaseViewModel<BaseNavigator>() {
 
-    private val _memoEntity: MutableLiveData<MemoEntity> by createMutableLiveData()
-    var memoEntity: LiveData<MemoEntity> = _memoEntity
+    private val _memoEntity: MutableLiveData<Memo> by createMutableLiveData()
+    var memoEntity: LiveData<Memo> = _memoEntity
 
-    private val _pictures: MutableLiveData<MutableList<String>> = MutableLiveData(mutableListOf())
-    var pictures: LiveData<MutableList<String>> = _pictures
+    private val _pictures: MutableLiveData<MutableList<MemoImage>> = MutableLiveData(mutableListOf())
+    var pictures: LiveData<MutableList<MemoImage>> = _pictures
 
     var title = MutableLiveData<String>("")
     var description = MutableLiveData<String>("")
@@ -38,28 +38,28 @@ class DetailViewModel<N : BaseNavigator>(
 
     fun getMemo(id: Long) {
 
-        compositeDisposable.add(
-            dataBase.memoDao().getMemo(id)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnSuccess {
-                    _memoEntity.value = it
-                    title.value = it.title
-                    description.value = it.descrption
-                }
-                .subscribe({
-                    _pictures.value = it.imagePath.toMutableList()
-                    Log.e("getMemo : ", "success")
-                }, {
-                    Log.e("getMemo : ", it.message)
-                })
-        )
+        dataBase.memoDao().getMemo(id)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnSuccess {
+                _memoEntity.value = it
+                title.value = it.title
+                description.value = it.descrption
+            }
+            .subscribe({
+                _pictures.value = it.imageList.toMutableList()
+            }, {
+                it.printStackTrace()
+            })
+            .let{ addDisposable(it) }
     }
 
     fun add(imagePath : String) {
 
         _pictures.value = _pictures.value!!.toMutableList().apply {
-            this.add(imagePath)
+            this.add(
+                MemoImage(imagePath = imagePath)
+            )
             return@apply
         }
     }
@@ -81,7 +81,7 @@ class DetailViewModel<N : BaseNavigator>(
         if(title.value.isNullOrBlank()) title.value = "제목 없음"
         if(description.value.isNullOrBlank()) description.value = "내용 없음"
 
-        val updatedMemo = MemoEntity(
+        val updatedMemo = Memo(
             _memoEntity.value!!.id,
             title.value!!,
             description.value!!,
@@ -90,16 +90,15 @@ class DetailViewModel<N : BaseNavigator>(
             _pictures.value?.toList()!!
         )
 
-        compositeDisposable.add(
-            dataBase.memoDao().update(updatedMemo)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    Log.e("update : ", "success")
-                }, {
-                    Log.e("update : ", it.message)
-                })
-        )
+        dataBase.memoDao().update(updatedMemo)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                Log.e("update : ", "success")
+            }, {
+                Log.e("update : ", it.message)
+            })
+            .let { addDisposable(it) }
     }
 
     fun delete() {
@@ -107,7 +106,7 @@ class DetailViewModel<N : BaseNavigator>(
         if(title.value.isNullOrBlank()) title.value = "제목 없음"
         if(description.value.isNullOrBlank()) description.value = "내용 없음"
 
-        val updatedMemo = MemoEntity(
+        val updatedMemo = Memo(
             _memoEntity.value?.id!!,
             title.value ?: "제목 없음",
             description.value ?: "내용 없음",
@@ -116,16 +115,15 @@ class DetailViewModel<N : BaseNavigator>(
             _pictures.value?.toList()!!
         )
 
-        compositeDisposable.add(
-            dataBase.memoDao().delete(updatedMemo)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    Log.e("delete : ", "success")
-                    getNavigator().backActivity()
-                }, {
-                    Log.e("delete : ", it.message)
-                })
-        )
+        dataBase.memoDao().delete(updatedMemo)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                Log.e("delete : ", "success")
+                getNavigator().backActivity()
+            }, {
+                Log.e("delete : ", it.message)
+            })
+            .let { addDisposable(it) }
     }
 }

@@ -13,11 +13,9 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import androidx.core.content.FileProvider
-import androidx.databinding.DataBindingUtil
+import com.memo.project.BR
 import com.memo.project.R
 import com.memo.project.base.BaseActivity
-import com.memo.project.base.BaseNavigator
-import com.memo.project.data.local.db.MemoDatabase
 import com.memo.project.databinding.ActivityEditMemoBinding
 import com.memo.project.ui.adapter.PictureAdapter
 import com.memo.project.ui.view.Fragment.PopupDialogFragment
@@ -26,41 +24,41 @@ import com.memo.project.util.Permission
 import com.memo.project.util.getRealPathFromUri
 import kotlinx.android.synthetic.main.activity_add_memo.*
 import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 
-class EditMemoActivity : BaseActivity() {
+class EditMemoActivity : BaseActivity<ActivityEditMemoBinding, DetailViewModel>() {
 
-    private val database : MemoDatabase by inject()
-    private val pictureAdapter = PictureAdapter(true)
-
+    private val mViewModel : DetailViewModel by viewModel()
+    private val pictureAdapter : PictureAdapter by inject()
     private var imageFilePath: String? = null
     private var photoUri: Uri? = null
 
-    lateinit var binding : ActivityEditMemoBinding
-    lateinit var detailViewModel: DetailViewModel<BaseNavigator>
+    override val screenTitle: String
+        get() = "메모 편집하기"
+
+    override val viewModel: DetailViewModel
+        get() = mViewModel
+
+    override val viewModelId: Int
+        get() = BR.viewModel
+
+    override val layoutResId: Int
+        get() = R.layout.activity_edit_memo
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_edit_memo)
-        binding.lifecycleOwner = this
-
-        setTitle("메모 편집하기")
-
-        detailViewModel = DetailViewModel(database, this.application)
-        binding.viewModel = detailViewModel.apply {
-            setNavigator(this@EditMemoActivity)
-        }
-
-        binding.rcvImages.adapter = pictureAdapter
+        viewModel.setNavigator(this)
+        viewDataBinding.rcvImages.adapter = pictureAdapter
         pictureAdapter.setOnItemSelectedListener { view, item, position ->
-            detailViewModel.remove(position)
+            viewModel.remove(position)
         }
 
         val id = getIntent().getLongExtra("id", 0)
-        detailViewModel.getMemo(id)
+        viewModel.getMemo(id)
 
         Permission(this).tedPermission()
     }
@@ -86,7 +84,7 @@ class EditMemoActivity : BaseActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId) {
             R.id.menu_apply -> {
-                detailViewModel.update()
+                viewModel.update()
                 val dialog = AlertDialog.Builder(this@EditMemoActivity).apply {
                      setTitle("편집이 완료되었습니다")
                      setCancelable(false)
@@ -114,7 +112,7 @@ class EditMemoActivity : BaseActivity() {
                 }
             } else if(requestCode == PICK_FROM_CAMERA) {
                 //카메라 이미지 넣기
-                if(imageFilePath!=null) detailViewModel.add(imageFilePath!!)
+                if(imageFilePath!=null) viewModel.add(imageFilePath!!)
             }
         }
     }
@@ -152,7 +150,7 @@ class EditMemoActivity : BaseActivity() {
         //https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory&fname=https://k.kakaocdn.net/dn/EShJF/btquPLT192D/SRxSvXqcWjHRTju3kHcOQK/img.png
         PopupDialogFragment(this).apply {
             setOnImageSelectedListener { view, imagePath ->
-                detailViewModel.add(imagePath)
+                viewModel.add(imagePath)
             }
         }.show()
     }
@@ -160,7 +158,7 @@ class EditMemoActivity : BaseActivity() {
     private fun getPictureFromAlbum(uri : Uri) {
 
         val imagePath : String = getRealPathFromUri(this, uri)
-        detailViewModel.add(imagePath)
+        viewModel.add(imagePath)
     }
 
     @Throws(IOException::class)
