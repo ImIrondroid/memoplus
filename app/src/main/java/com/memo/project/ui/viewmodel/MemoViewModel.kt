@@ -6,7 +6,8 @@ import androidx.lifecycle.MutableLiveData
 import com.memo.project.base.BaseNavigator
 import com.memo.project.base.BaseViewModel
 import com.memo.project.data.local.db.MemoDatabase
-import com.memo.project.data.local.entity.MemoEntity
+import com.memo.project.data.local.entity.Memo
+import com.memo.project.data.model.MemoImage
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import java.text.SimpleDateFormat
@@ -16,8 +17,8 @@ class MemoViewModel(
     private val dataBase : MemoDatabase
 ) : BaseViewModel<BaseNavigator>() {
 
-    private var _pictures : MutableLiveData<MutableList<String>> = MutableLiveData(mutableListOf())
-    val pictures : LiveData<MutableList<String>> = _pictures
+    private var _pictures : MutableLiveData<MutableList<MemoImage>> = MutableLiveData(mutableListOf())
+    val pictures : LiveData<MutableList<MemoImage>> = _pictures
 
     var id : Long = 0
     var title = MutableLiveData<String>()
@@ -31,7 +32,7 @@ class MemoViewModel(
         return "작성날짜 : $formatdate"
     }
 
-    var memoEntities : LiveData<List<MemoEntity>>
+    var memoEntities : LiveData<List<Memo>>
 
     init {
         memoEntities = select()
@@ -39,7 +40,9 @@ class MemoViewModel(
 
     fun add(imagePath : String) {
         _pictures.value = _pictures.value!!.toMutableList().apply {
-            this.add(imagePath)
+            this.add(
+                MemoImage(imagePath = imagePath)
+            )
             return@apply
         }
     }
@@ -56,7 +59,7 @@ class MemoViewModel(
         }
     }
 
-    fun select() : LiveData<List<MemoEntity>> {
+    fun select() : LiveData<List<Memo>> {
 
         return dataBase.memoDao().getAll()
     }
@@ -70,14 +73,14 @@ class MemoViewModel(
         val date = Date(now)
         val simpleDateFormat = SimpleDateFormat("yyyy/MM/dd HH:mm")
         val formatdate = simpleDateFormat.format(date)
-
-        dataBase.memoDao().insert(MemoEntity(
-            0L,
-            title.value!!,
-            description.value!!,
-            formatdate,
-            formatdate,
-            pictures.value?.toList()!!))
+        val memo = Memo(
+            title = title.value!!,
+            descrption = description.value!!,
+            createdAt = formatdate,
+            editedAt = formatdate,
+            imageList = pictures.value?.toList()!!)
+        //Log.e(" id : ", memo.id?.toString() ?: null)
+        dataBase.memoDao().insert(memo)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({

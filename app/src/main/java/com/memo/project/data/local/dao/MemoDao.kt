@@ -2,25 +2,25 @@ package com.memo.project.data.local.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.memo.project.data.local.entity.MemoEntity
+import com.memo.project.data.local.entity.Memo
 import io.reactivex.Completable
 import io.reactivex.Single
 
 @Dao
 interface MemoDao {
 
-    @Query("SELECT * FROM memoinfo")
-    fun getAll() : LiveData<List<MemoEntity>>
+    @Query("SELECT * FROM memo")
+    fun getAll() : LiveData<List<Memo>>
 
-    @Query("SELECT * FROM memoinfo where id = :id")
-    fun getMemo(id : Long) : Single<MemoEntity>
+    @Query("SELECT * FROM memo where id = :id")
+    fun getMemo(id : Long) : Single<Memo>
 
     @Insert
-    fun insert(memo : MemoEntity) : Completable
+    fun insert(memo : Memo) : Completable
 
     @Update
-    fun update(memo : MemoEntity) : Completable
+    fun update(memo : Memo) : Completable
 
     @Delete
-    fun delete(memo : MemoEntity) : Completable
+    fun delete(memo : Memo) : Completable
 }

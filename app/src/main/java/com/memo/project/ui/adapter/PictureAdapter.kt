@@ -7,28 +7,29 @@ import androidx.recyclerview.widget.DiffUtil
 import com.memo.project.databinding.ItemPictureBinding
 import com.memo.project.base.BaseRecyclerViewAdapter
 import com.memo.project.base.BaseViewHolder
+import com.memo.project.data.model.MemoImage
 import com.memo.project.util.OnItemSelectedListener
 import kotlinx.android.synthetic.main.item_picture.view.*
 
 class PictureAdapter(
     val status : Boolean = false
-) : BaseRecyclerViewAdapter<String>(
-    object : DiffUtil.ItemCallback<String>() {
-        override fun areItemsTheSame(oldItem: String, newItem: String): Boolean {
+) : BaseRecyclerViewAdapter<MemoImage>(
+    object : DiffUtil.ItemCallback<MemoImage>() {
+        override fun areItemsTheSame(oldItem: MemoImage, newItem: MemoImage): Boolean {
             return false
         }
-        override fun areContentsTheSame(oldItem: String, newItem: String): Boolean {
+        override fun areContentsTheSame(oldItem: MemoImage, newItem: MemoImage): Boolean {
             return false
         }
     }
 ) {
-    private var onItemSelectedListener : OnItemSelectedListener<String>? = null
+    private var onItemSelectedListener : OnItemSelectedListener<MemoImage>? = null
 
-    fun setOnItemSelectedListener(onItemSelectedListener: OnItemSelectedListener<String>) {
+    fun setOnItemSelectedListener(onItemSelectedListener: OnItemSelectedListener<MemoImage>) {
         this.onItemSelectedListener = onItemSelectedListener
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<String> {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<MemoImage> {
         return PictureViewHolder(
             ItemPictureBinding.inflate(
                 LayoutInflater.from(parent.context),
@@ -40,8 +41,8 @@ class PictureAdapter(
 
     inner class PictureViewHolder(
         private val binding : ItemPictureBinding
-    ) : BaseViewHolder<String>(binding) {
-        override fun onBind(item: String?) {
+    ) : BaseViewHolder<MemoImage>(binding) {
+        override fun onBind(item: MemoImage?) {
             super.onBind(item)
             if(item==null) return
             if(status) {

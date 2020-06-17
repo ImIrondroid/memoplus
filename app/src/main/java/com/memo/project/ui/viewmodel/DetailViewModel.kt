@@ -7,7 +7,8 @@ import androidx.lifecycle.MutableLiveData
 import com.memo.project.base.BaseNavigator
 import com.memo.project.base.BaseViewModel
 import com.memo.project.data.local.db.MemoDatabase
-import com.memo.project.data.local.entity.MemoEntity
+import com.memo.project.data.local.entity.Memo
+import com.memo.project.data.model.MemoImage
 import com.memo.project.util.extenstion.createMutableLiveData
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -18,11 +19,11 @@ class DetailViewModel(
     private val dataBase: MemoDatabase
 ) : BaseViewModel<BaseNavigator>() {
 
-    private val _memoEntity: MutableLiveData<MemoEntity> by createMutableLiveData()
-    var memoEntity: LiveData<MemoEntity> = _memoEntity
+    private val _memoEntity: MutableLiveData<Memo> by createMutableLiveData()
+    var memoEntity: LiveData<Memo> = _memoEntity
 
-    private val _pictures: MutableLiveData<MutableList<String>> = MutableLiveData(mutableListOf())
-    var pictures: LiveData<MutableList<String>> = _pictures
+    private val _pictures: MutableLiveData<MutableList<MemoImage>> = MutableLiveData(mutableListOf())
+    var pictures: LiveData<MutableList<MemoImage>> = _pictures
 
     var title = MutableLiveData<String>("")
     var description = MutableLiveData<String>("")
@@ -46,7 +47,7 @@ class DetailViewModel(
                 description.value = it.descrption
             }
             .subscribe({
-                _pictures.value = it.imagePath.toMutableList()
+                _pictures.value = it.imageList.toMutableList()
             }, {
                 it.printStackTrace()
             })
@@ -56,7 +57,9 @@ class DetailViewModel(
     fun add(imagePath : String) {
 
         _pictures.value = _pictures.value!!.toMutableList().apply {
-            this.add(imagePath)
+            this.add(
+                MemoImage(imagePath = imagePath)
+            )
             return@apply
         }
     }
@@ -78,7 +81,7 @@ class DetailViewModel(
         if(title.value.isNullOrBlank()) title.value = "제목 없음"
         if(description.value.isNullOrBlank()) description.value = "내용 없음"
 
-        val updatedMemo = MemoEntity(
+        val updatedMemo = Memo(
             _memoEntity.value!!.id,
             title.value!!,
             description.value!!,
@@ -103,7 +106,7 @@ class DetailViewModel(
         if(title.value.isNullOrBlank()) title.value = "제목 없음"
         if(description.value.isNullOrBlank()) description.value = "내용 없음"
 
-        val updatedMemo = MemoEntity(
+        val updatedMemo = Memo(
             _memoEntity.value?.id!!,
             title.value ?: "제목 없음",
             description.value ?: "내용 없음",
