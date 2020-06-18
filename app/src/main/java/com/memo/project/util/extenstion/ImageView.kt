@@ -5,29 +5,14 @@ import android.graphics.BitmapFactory
 import android.media.ExifInterface
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
-import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.memo.project.R
-import com.memo.project.base.BaseRecyclerViewAdapter
 import com.memo.project.data.model.MemoImage
 import com.memo.project.util.exifOrientationToDegrees
 import com.memo.project.util.rotate
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.runOnUiThread
 import java.io.IOException
-
-@Suppress("UNCHECKED_CAST")
-@BindingAdapter("submitList")
-fun<T> RecyclerView.binding(list: List<T>? = null){
-    (adapter as? BaseRecyclerViewAdapter<T>)?.run {
-        submitList(list)
-    }
-}
-
-@BindingAdapter("adapter")
-fun RecyclerView.binding(adapter: RecyclerView.Adapter<*>? = null) {
-    this.adapter = adapter
-}
 
 @BindingAdapter("loadImage")
 fun ImageView.load(image : MemoImage?) {
