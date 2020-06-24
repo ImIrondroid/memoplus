@@ -22,7 +22,7 @@ fun exifOrientationToDegrees(exifOrientation: Int): Int {
     }
 }
 
-fun rotate(bitmap: Bitmap, degree: Float): Bitmap? {
+fun rotate(bitmap: Bitmap, degree: Float): Bitmap {
     val matrix = Matrix()
     matrix.postRotate(degree)
     return Bitmap.createBitmap(
@@ -36,12 +36,16 @@ fun rotate(bitmap: Bitmap, degree: Float): Bitmap? {
     )
 }
 
+@Suppress("DEPRECATION")
 fun getRealPathFromUri(activity : Activity, contentUri : Uri) : String {
-    var index = 0
-    val project : Array<String> = arrayOf(MediaStore.Images.Media.DATA)
-    val cursor = activity.contentResolver.query(contentUri, project, null, null, null)
-    if(cursor!!.moveToFirst()) {
-        index  = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+    var result: String
+    val cursor = activity.contentResolver.query(contentUri, null, null, null, null)
+    if(cursor==null) { result = contentUri.path!! } 
+    else {
+        cursor.moveToFirst()
+        val index = cursor.getColumnIndexOrThrow(MediaStore.Images.ImageColumns.DATA)
+        result = cursor.getString(index)
+        cursor.close()
     }
-    return cursor.getString(index)
+    return result
 }
