@@ -11,7 +11,7 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class Memo(
     @PrimaryKey(autoGenerate = true)
-    val id : Long? = null,
+    val id : Long = 0L,
     var title : String,
     var descrption : String,
     val createdAt : String,

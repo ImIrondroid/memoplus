@@ -12,7 +12,7 @@ import kotlin.reflect.KClass
 abstract class BaseActivity<VDB : ViewDataBinding, VM: BaseViewModel<*>>
     : AppCompatActivity(), BaseNavigator {
 
-    protected abstract val screenTitle: String
+    protected abstract val screenTitle: Int
     protected abstract val layoutResId: Int
     protected open val viewModelId: Int = BR.viewModel
 
@@ -21,7 +21,7 @@ abstract class BaseActivity<VDB : ViewDataBinding, VM: BaseViewModel<*>>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        title = screenTitle
+        setTitle(screenTitle)
         bindView()
     }
 
