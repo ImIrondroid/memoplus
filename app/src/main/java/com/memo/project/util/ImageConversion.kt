@@ -1,11 +1,17 @@
 package com.memo.project.util
 
 import android.app.Activity
+import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Matrix
 import android.media.ExifInterface
 import android.net.Uri
+import android.os.Environment
 import android.provider.MediaStore
+import java.io.File
+import java.io.IOException
+import java.text.SimpleDateFormat
+import java.util.*
 
 fun exifOrientationToDegrees(exifOrientation: Int): Int {
     return when (exifOrientation) {
@@ -48,4 +54,15 @@ fun getRealPathFromUri(activity : Activity, contentUri : Uri) : String {
         cursor.close()
     }
     return result
+}
+
+@Throws(IOException::class)
+fun createImageFile(context: Context): File? {
+    val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+    val storageDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+    return File.createTempFile(
+        "JPEG_${timeStamp}_",
+        ".jpg",
+        storageDir
+    )
 }
